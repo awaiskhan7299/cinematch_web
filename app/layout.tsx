@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
+import Script from "next/script"; // <-- Yeh line add ki hai
 import "./globals.css";
 import QueryProvider from "../providers/QueryProvider";
 
@@ -112,6 +113,14 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        
+        {/* Google AdSense Script */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3609007329468888"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
         />
       </head>
       <body className="antialiased" suppressHydrationWarning>
