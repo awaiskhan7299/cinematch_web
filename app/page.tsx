@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
-import { Flame, Compass, Heart, Play, Bookmark } from "lucide-react";
+import { Flame, Compass, Heart, Play, Bookmark, Film, Sparkles, Tv } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import MovieRow from "../components/MovieRow";
@@ -13,9 +13,9 @@ import { MovieLite, img, titleOf } from "../lib/movies";
 const FALLBACK_BG = "https://image.tmdb.org/t/p/original/8rpDcsfLJypbO6vtec8O31BfL0T.jpg";
 
 const STEPS = [
-  { icon: Compass, title: "Pick your mood", text: "Choose a genre or industry — Hollywood, Bollywood, Korean and more." },
-  { icon: Heart, title: "Swipe", text: "Right to save, left to skip. No endless scrolling, no decision fatigue." },
-  { icon: Play, title: "Watch tonight", text: "Open any match for the trailer, cast and where it's streaming." },
+  { icon: Compass, title: "Pick your mood", text: "Choose a genre or industry — Hollywood, Bollywood, Korean, Anime and more." },
+  { icon: Heart, title: "Swipe & decide", text: "Right to save, left to skip. Zero endless scrolling, zero decision fatigue." },
+  { icon: Play, title: "Watch tonight", text: "Open any match for the official trailer, verified cast and streaming options." },
 ];
 
 export default function Home() {
@@ -45,8 +45,8 @@ export default function Home() {
     <main className="relative min-h-screen bg-background overflow-x-hidden">
       <Navbar />
 
-      {/* HERO */}
-      <section className="relative flex min-h-[92dvh] items-center overflow-hidden">
+      {/* HERO SECTION */}
+      <section className="relative flex min-h-[92dvh] items-center overflow-hidden" aria-label="Hero Introduction">
         <AnimatePresence mode="sync">
           <motion.div
             key={backdrop}
@@ -63,7 +63,8 @@ export default function Home() {
 
         <div className="relative z-10 mx-auto w-full max-w-[1400px] px-5 md:px-6 pt-28 pb-16">
           <motion.div
-            initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="max-w-2xl"
           >
@@ -96,17 +97,19 @@ export default function Home() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="relative z-10 mx-auto max-w-[1400px] px-5 md:px-6 -mt-6 pb-16">
+      <section className="relative z-10 mx-auto max-w-[1400px] px-5 md:px-6 -mt-6 pb-16" aria-label="How CineMatch Works">
         <div className="grid gap-4 md:grid-cols-3">
           {STEPS.map(({ icon: Icon, title, text }, n) => (
             <motion.div
               key={title}
-              initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
               transition={{ delay: n * 0.1, duration: 0.6 }}
               className="glass-panel p-6"
             >
               <div className="mb-4 grid h-11 w-11 place-items-center rounded-xl bg-brand-gradient shadow-glow"><Icon size={20} /></div>
-              <h3 className="font-display text-xl font-bold">{title}</h3>
+              <h2 className="font-display text-xl font-bold">{title}</h2>
               <p className="mt-1.5 text-sm text-white/55 leading-relaxed">{text}</p>
             </motion.div>
           ))}
@@ -114,14 +117,44 @@ export default function Home() {
       </section>
 
       {/* ROWS */}
-      <div className="relative z-10 mx-auto w-full max-w-[1400px] px-5 md:px-6 pb-16 space-y-12">
+      <section className="relative z-10 mx-auto w-full max-w-[1400px] px-5 md:px-6 pb-16 space-y-12" aria-label="Curated Movie Categories">
         <MovieRow title="Trending Today" fetchUrl="/api/movies?type=trending" queryKey="trending" index={0} />
         <MovieRow title="Blockbuster Action" fetchUrl="/api/movies?genre=28" queryKey="action" index={1} />
         <MovieRow title="Bollywood Picks" fetchUrl="/api/movies?lang=hi" queryKey="bollywood" index={2} />
         <MovieRow title="Animation & Anime" fetchUrl="/api/movies?genre=16" queryKey="animation" index={3} />
         <MovieRow title="Sci-Fi & Fantasy" fetchUrl="/api/movies?genre=878,14" queryKey="scifi-fantasy" index={4} />
         <MovieRow title="Critically Acclaimed" fetchUrl="/api/movies?type=top_rated" queryKey="top-rated" index={5} />
-      </div>
+      </section>
+
+      {/* SEO CONTEXT SECTION */}
+      <section className="relative z-10 mx-auto w-full max-w-[1400px] px-5 md:px-6 pb-20 border-t border-white/10 pt-16">
+        <div className="max-w-3xl">
+          <h2 className="font-display text-2xl md:text-3xl font-bold tracking-tight text-white/90">
+            Smart Film Discovery Powered by TMDB
+          </h2>
+          <p className="mt-4 text-sm leading-relaxed text-white/60">
+            CineMatch uses intelligent genre clustering and real-time streaming data to pair you with the exact film you are in the mood for. Whether exploring Bollywood releases, top-tier anime series, or high-octane Hollywood blockbusters, our zero-lag swipe engine gets you watching in seconds.
+          </p>
+
+          <div className="mt-8 grid gap-4 sm:grid-cols-3">
+            <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
+              <Film className="h-5 w-5 text-gold mb-2" />
+              <h3 className="text-sm font-semibold text-white">Daily Updates</h3>
+              <p className="mt-1 text-xs text-white/50">Constantly refreshed with the latest box-office hits and OTT releases.</p>
+            </div>
+            <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
+              <Sparkles className="h-5 w-5 text-gold mb-2" />
+              <h3 className="text-sm font-semibold text-white">Zero Clutter</h3>
+              <p className="mt-1 text-xs text-white/50">Tinder-style intuitive interface built to kill choice paralysis.</p>
+            </div>
+            <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
+              <Tv className="h-5 w-5 text-gold mb-2" />
+              <h3 className="text-sm font-semibold text-white">Cross-Platform</h3>
+              <p className="mt-1 text-xs text-white/50">Trailers, cast breakdowns, and verified synopsis across all devices.</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <Footer />
     </main>
