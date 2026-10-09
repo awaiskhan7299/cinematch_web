@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #07070b;
+  --color-surface: rgba(255, 255, 255, 0.04);
+  --color-accent: #ff4d6d;
+  --color-gold: #f5c76b;
+  --color-like: #2ee59d;
+  --color-nope: #ff4d6d;
+
+  /* legacy tokens (ProviderCard etc.) */
+  --color-prime: #ff4d6d;
+  --color-netflix: #E50914;
+  --color-disney: #113CCF;
+  --color-max: #5B00EB;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-playfair), ui-serif, Georgia, serif;
+
+  --background-image-glass-gradient: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.01) 100%);
+  --background-image-shimmer-gradient: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  --background-image-brand-gradient: linear-gradient(135deg, #ff4d6d 0%, #ff8a5c 55%, #f5c76b 100%);
+
+  --shadow-neon-netflix: 0 0 50px -10px rgba(229, 9, 20, 0.5);
+  --shadow-neon-prime: 0 0 50px -10px rgba(255, 77, 109, 0.5);
+  --shadow-neon-disney: 0 0 50px -10px rgba(17, 60, 207, 0.5);
+  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 10px 40px -8px rgba(255, 77, 109, 0.55);
+
+  --animate-shimmer: shimmer 2s infinite;
+  --animate-float: float 16s ease-in-out infinite;
+  --animate-float-slow: float 24s ease-in-out infinite reverse;
+
+  @keyframes float {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    50% { transform: translate3d(40px, 30px, 0) scale(1.12); }
+  }
+
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    @apply bg-background text-white overflow-x-hidden antialiased selection:bg-white/20 selection:text-white;
+    font-family: var(--font-sans);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+    border-radius: 8px;
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    @apply bg-glass-gradient backdrop-blur-2xl border border-white/10 shadow-glass rounded-2xl;
+  }
+  .font-display { font-family: var(--font-display); }
+
+  .text-brand {
+    @apply bg-brand-gradient bg-clip-text text-transparent;
+  }
+  .btn-brand {
+    @apply bg-brand-gradient text-white font-semibold rounded-full shadow-glow transition-transform duration-300 hover:scale-[1.04] active:scale-95;
+  }
+  .btn-ghost {
+    @apply border border-white/15 bg-white/5 backdrop-blur-md text-white/90 font-medium rounded-full transition-all duration-300 hover:bg-white/10 hover:border-white/30 active:scale-95;
+  }
+  .chip {
+    @apply shrink-0 px-4 py-1.5 rounded-full text-sm font-medium border border-white/10 bg-white/[0.06] backdrop-blur-md text-white/65 transition-all duration-200 hover:text-white hover:bg-white/15 cursor-pointer;
+  }
+  .chip-active {
+    @apply bg-brand-gradient text-white border-transparent shadow-glow hover:bg-brand-gradient hover:text-white;
+  }
+  .glass-btn {
+    @apply grid place-items-center rounded-full border border-white/20 bg-white/10 backdrop-blur-xl transition-all duration-300 active:scale-90 disabled:opacity-30 disabled:pointer-events-none;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 8px 24px -8px rgba(0,0,0,0.7);
+  }
+
+  .skeleton-shimmer {
+    @apply relative overflow-hidden bg-white/5 rounded-2xl;
+  }
+  .skeleton-shimmer::after {
+    @apply absolute inset-0 bg-shimmer-gradient animate-shimmer content-[''];
+  }
+
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* Poster-shaped (2:3) deck that always fits the screen height */
+  .deck-frame {
+    --h: min(clamp(300px, calc(100dvh - 410px), 640px), 138vw);
+    height: var(--h);
+    width: calc(var(--h) * 2 / 3);
+  }
+  @media (min-width: 768px) {
+    .deck-frame { --h: min(clamp(320px, calc(100dvh - 385px), 680px), 138vw); }
+  }
+
+  .safe-bottom { padding-bottom: max(env(safe-area-inset-bottom), 0.5rem); }
+}
