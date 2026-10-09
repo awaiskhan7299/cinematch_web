@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
-import Script from "next/script"; // <-- Yeh line add ki hai
+import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next"; // Vercel Analytics Add kiya
+import { SpeedInsights } from "@vercel/speed-insights/next"; // Vercel Speed Insights Add kiya
 import "./globals.css";
 import QueryProvider from "../providers/QueryProvider";
 
@@ -114,8 +116,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        
-        {/* Google AdSense Script */}
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3609007329468888"
@@ -125,6 +125,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       </head>
       <body className="antialiased" suppressHydrationWarning>
         <QueryProvider>{children}</QueryProvider>
+        
+        {/* Vercel Metrics Components */}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
